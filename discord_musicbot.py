@@ -10,7 +10,7 @@ from random import choice
 class discord_musicbot(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
+        self.voice = None
         # all the music related stuff
         self.is_playing = False
 
@@ -88,7 +88,7 @@ class discord_musicbot(commands.Cog):
                 if self.is_playing == False:
                     await self.play_music()
 
-    @commands.command(name="queue", help="Displays the current songs in queue")
+    @commands.command(name="q", help="Displays the current songs in queue")
     async def q(self, ctx):
         retval = ""
         for i in range(0, len(self.music_queue)):
@@ -107,9 +107,7 @@ class discord_musicbot(commands.Cog):
             # try to play next in the queue if it exists
             await self.play_music()
 
-    @commands.command(name="stop", help="Stops the songs")
+    @commands.command(name='stop',help="Stops all the songs")
     async def stop(self, ctx):
-        server = ctx.message.guild
-        self.vc = server.voice_client
-
-        self.vc.stop()
+        if self.vc != "" and self.vc:
+            self.vc.stop()
