@@ -5,7 +5,12 @@ from discord.voice_client import VoiceClient
 import youtube_dl
 from youtube_dl import YoutubeDL
 
+import numpy as np
 from random import choice
+
+bot = commands.Bot(command_prefix='p')
+
+
 
 class discord_musicbot(commands.Cog):
     def __init__(self, bot):
@@ -111,3 +116,10 @@ class discord_musicbot(commands.Cog):
     async def stop(self, ctx):
         if self.vc != "" and self.vc:
             self.vc.stop()
+
+    @commands.command(name='ping', help='This command returns the latency')
+    async def ping(self, ctx):
+        value = bot.latency * 1000
+        if np.isnan(value):
+            value = np.nan_to_num()
+        await ctx.send(f'**Pong!** Latency: {round(value)}ms')
